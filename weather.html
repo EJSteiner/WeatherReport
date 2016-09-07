@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script>
+        // This script contains only functions
+
+        var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var forecasts = ["Rainy", "Cloudy", "Sunny", "Thunderstorms", "Rainy", "Cloudy", "Sunny"];
+        var highTemps = [86, 89, 89, 89, 86, 83, 83];
+        var lowTemps = [69, 72, 72, 69, 60, 59, 66];
+
+        var dayWanted;
+        var dayNum = -1;
+
+        function requestDay() {
+            while (dayNum < 0) {
+                dayWanted = prompt("What day are you interested in?", "");
+                if (dayWanted == "" || dayWanted == null) {
+                    if (dayWanted == null) dayNum = getToday();
+                } else {
+                    dayWanted = dayWanted.trim();
+                    myDay = dayWanted.substring(0, 1).toUpperCase() + dayWanted.substring(1, dayWanted.length).toLowerCase();
+                    dayWanted = myDay;
+                    dayNum = daysOfWeek.indexOf(dayWanted);
+                    if (dayNum == -1) {
+                        alert(dayWanted + " was not recogized as a day.")
+                    }
+                }
+            }
+        }
+
+
+        function getToday() {
+            var today = new Date();
+            return today.getDay();
+        }
+
+        function showForecast(dayNum) {
+            this.dayNum = dayNum;
+            var picture;
+            document.getElementById("head1").textContent = "Forecast for " + daysOfWeek[dayNum];
+            document.getElementById("weatherImage").src = getPicture();
+            document.getElementById("caption").textContent = forecasts[dayNum];
+            document.getElementById("high").textContent += highTemps[dayNum];
+            document.getElementById("low").textContent += lowTemps[dayNum];
+
+
+        }
+        function getPicture() {
+            var imageFile = "images/";
+            switch (forecasts[dayNum]) {
+                case "Sunny":
+                    imageFile += "sunny.jpg";
+                    break;
+                case "Rainy":
+                    imageFile += "rain.png";
+                    break;
+                case "Cloudy":
+                    imageFile += "cloudy.png";
+                    break;
+                case "Thunderstorms":
+                    imageFile += "thunderstorm.png";
+                    break;
+                default:
+                    imageFile += "question.jpg";
+            }
+            return imageFile;
+        }
+    </script>
+
+    <script>
+        requestDay();
+    </script>
+    <h1 id="head1">Forecast</h1>
+    <div>
+        <img width="300" id="weatherImage" src="images/question.jpg" />
+    </div>
+    <div style="width:300px; text-align:center">
+        <h2 id="caption"></h2>
+        <p id="high">High: </p>
+        <p id="low">Low: </p>
+    </div>
+
+    <script>
+        showForecast(dayNum);
+    </script>
+</body>
+
+</html>
